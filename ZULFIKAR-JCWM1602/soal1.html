@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Masuka Kata :</h1>
+        <br /><br />
+        <input type="text" id="input" /><br /><br />
+        <input type="button" value="HITUNG VOKAL" onclick="hitung()" />
+        <input type="button" value="HURUF VOKAL" onclick="huruf()" />
+        <input type="button" value="TANPA VOKAL" onclick="tanpa()" />
+        <br />
+        <h1>
+            <h1 id="result"></h1>
+        </h1>
+    </body>
+
+    <script>
+        var result;
+
+        function hitung(n) {
+            var input = document.getElementById('input').value;
+
+            var a, i, u, e, o;
+            input.toLowerCase();
+
+            input.split('');
+
+            if (input.includes('a')) {
+                a = 1;
+            }
+            if (input.includes('i')) {
+                i = 1;
+            }
+            if (input.includes('e')) {
+                e = 1;
+            }
+            if (input.includes('u')) {
+                u = 1;
+            }
+            if (input.includes('o')) {
+                o = 1;
+            }
+            var hasil = a + i + e + u + o;
+
+            result = `Hasil: ada ${hasil} huruf vokal berdampingan`;
+            document.getElementById('result').innerHTML = result;
+        }
+
+        function huruf() {
+            var input = document.getElementById('input').value;
+
+            const vowels = (n) => {
+                let result = [];
+                n.toLowerCase();
+
+                n.split('');
+
+                if (n.includes('a')) {
+                    result.push('a');
+                }
+                if (n.includes('i')) {
+                    result.push('i');
+                }
+                if (n.includes('e')) {
+                    result.push('e');
+                }
+                if (n.includes('u')) {
+                    result.push('u');
+                }
+                if (n.includes('o')) {
+                    result.push('o');
+                }
+                return result.join(',');
+            };
+
+            result = 'Huruf Vokal: ';
+            result += vowels(input);
+            document.getElementById('result').innerHTML = result;
+        }
+
+        function tanpa() {
+            var input = document.getElementById('input').value;
+
+            const vowels = (n) => {
+                let result = [];
+
+                const vokal = ['a', 'i', 'u', 'e', 'o'];
+
+                n.split('');
+
+                for (let i = 0; i < n.length; i++) {
+                    if (!vokal.includes(n[i])) {
+                        result.push(n[i]);
+                    }
+                }
+                return result.join('');
+            };
+            result = 'Tanpa Vokal: ';
+            result += vowels(input);
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            tr,
+            td,
+            table,
+            th {
+                border-collapse: collapse;
+                border: 1px solid black;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Form Product</h1>
+        <br />
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="renderData"></tbody>
+            <tbody>
+                <tr>
+                    <td>#</td>
+                    <td><input type="text" placeholder="masukan nama barang" id="barang" /></td>
+                    <td><input type="text" placeholder="masukan harga barang" id="harga" /></td>
+                    <td>
+                        <input type="radio" name="kategori" id="ctg" value="food" />Food
+                        <input type="radio" name="kategori" id="ctg" value="drink" />Drinks
+                        <input type="radio" name="kategori" id="ctg" value="others" />Others
+                    </td>
+                    <td>
+                        <input type="button" value="Add" onclick="submitData()" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+    <script>
+        var dataProduct = [{ no: 1, barang: 'coca-cola', price: '5000', category: 'drink' }];
+
+        var cate = ['food', 'drink', 'other'];
+
+        indexEdit = -1;
+
+        function printData(arr) {
+            let result = dataProduct.map((val, index) => {
+                if (indexEdit == index) {
+                    return `<tr>
+                <td>${index + 1}</td>
+                <td><input type="text" placeholder="nama barang" value="${
+                    val.barang
+                }" id="inputEditBarang${index}"></td>
+                <td><input type="text" placeholder="harga barang" value="${val.price}" id="inputEditPrice${index}"></td>
+                <td>
+                    <input type="radio" name="kategori" id="ctg${index}" value="food" />Food
+                        <input type="radio" name="kategori" id="ctg1${index}" value="drink" />Drinks
+                        <input type="radio" name="kategori" id="ctg2${index}" value="others" />Others
+                </td>
+                <td>
+                    <input type="button" value="Save" onclick="onSaveClick(${val.no})">
+                    <input type="button" value="Cancel" onclick="onCancelClick()">
+                 </td>
+            </tr>`;
+                }
+                return `<tr>
+                <td>${index + 1}</td>
+                <td>${val.barang}</td>
+                <td>${val.price}</td>
+                <td>${val.category}</td>
+                <td>
+                    <input type="button" value="Edit" onclick="onEditClick(${index})">
+                    <input type="button" value="Delete" onclick="onDeleteClick(${index})">
+                 </td>
+            </tr>`;
+            });
+            document.getElementById('renderData').innerHTML = result.join('');
+        }
+        printData(dataProduct);
+
+        function submitData() {
+            let inputBaranng = document.getElementById('barang').value;
+            let inputPrice = document.getElementById('harga').value;
+            let inputCategory = document.getElementsByName('kategori')[0].checked;
+            let inputCategory1 = document.getElementsByName('kategori')[1].checked;
+            let inputCategory2 = document.getElementsByName('kategori')[2].checked;
+
+            if (inputCategory) {
+                inputCategory = 'food';
+            } else if (inputCategory1) {
+                inputCategory = 'drink';
+            } else {
+                inputCategory = 'other';
+            }
+            if (inputBaranng && inputPrice && inputCategory) {
+                var result = { barang: inputBaranng, price: inputPrice, category: inputCategory };
+                dataProduct.push(result);
+                printData(dataProduct);
+            } else {
+                alert('Data yang anda masukan kurang!');
+            }
+        }
+
+        function onDeleteClick(index) {
+            dataProduct.splice(index, 1);
+            printData(dataProduct);
+        }
+
+        function onEditClick(index) {
+            indexEdit = index;
+            printData(dataProduct);
+        }
+
+        function onSaveClick(id) {
+            var editBarang = document.getElementById('inputEditBarang' + indexEdit).value;
+            var editPrice = document.getElementById('inputEditPrice' + indexEdit).value;
+            var editCategory = document.getElementsByName('kategori')[0].checked;
+            var editCategory1 = document.getElementsByName('kategori')[1].checked;
+            var editCategory2 = document.getElementsByName('kategori')[2].checked;
+            let indexEd = dataProduct.findIndex((val) => {
+                return val.no == id;
+            });
+
+            if (editCategory) {
+                editCategory = 'food';
+            } else if (editCategory1) {
+                editCategory = 'drink';
+            } else {
+                editCategory = 'other';
+            }
+
+            if (editBarang && editPrice && editCategory) {
+                dataProduct[indexEd].barang = editBarang;
+                dataProduct[indexEd].price = editPrice;
+                dataProduct[indexEd].category = editCategory;
+                indexEdit = -1;
+                printData(dataProduct);
+            } else {
+                alert('Mohon untuk diisi input yang kosong');
+            }
+        }
+
+        const onCancelEditClick = () => {
+            indexEdit = -1;
+            Printdata(arrUser);
+        };
+    </script>
+</html>
